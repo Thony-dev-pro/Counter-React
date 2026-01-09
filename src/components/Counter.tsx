@@ -2,6 +2,10 @@ import {useState} from "react";
 import "../styles/Counter.css";
 import ShowCounterHistory from "./CounterHistory.tsx";
 
+type Props = {
+    darkMode?: boolean;
+}
+
 function addCount(count: number, input: number): number {
     const newNumber : number = count + input;
     return newNumber > 100 ? 100 : newNumber;
@@ -26,7 +30,7 @@ function redoCount(history: number[]): number | null {
     return history[history.length - 1] ?? 0;
 }
 
-function Counter () {
+function Counter ({darkMode}: Props) {
     const [count, setCount] = useState(0);
     const [input, setInput] = useState(1);
     const [history, setHistory] = useState<number[]>([]);
@@ -63,7 +67,7 @@ function Counter () {
     }
 
     return (
-        <div className="counter">
+        <div className={`counter ${darkMode ? 'dark' : ''}`}>
             <h1>Counter</h1>
             <p>{count}</p>
             <input value={input} onChange={(e) => setInput(Number(e.target.value))}/>

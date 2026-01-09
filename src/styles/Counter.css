@@ -1,6 +1,12 @@
 .counter {
   text-align: center;
   padding: 2rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.counter.dark {
+  background-color: #1a1a1a;
+  color: #ffffff;
 }
 
 .counter h1 {
@@ -8,11 +14,19 @@
   margin-bottom: 1rem;
 }
 
+.counter.dark h1 {
+  color: #ffffff;
+}
+
 .counter p {
   font-size: 2rem;
   font-weight: bold;
   margin: 1rem 0;
   color: #007acc;
+}
+
+.counter.dark p {
+  color: #4da6ff;
 }
 
 .counter input {
@@ -23,11 +37,23 @@
   border-radius: 4px;
   text-align: center;
   width: 100px;
+  background-color: white;
+  color: #333;
+}
+
+.counter.dark input {
+  background-color: #333;
+  color: #ffffff;
+  border-color: #4da6ff;
 }
 
 .counter input:focus {
   outline: none;
   border-color: #005a9e;
+}
+
+.counter.dark input:focus {
+  border-color: #66b3ff;
 }
 
 .counter button {
@@ -44,4 +70,12 @@
 
 .counter button:hover {
   background-color: #005a9e;
+}
+
+.counter.dark button {
+  background-color: #4da6ff;
+}
+
+.counter.dark button:hover {
+  background-color: #66b3ff;
 }
