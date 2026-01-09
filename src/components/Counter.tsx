@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import "../styles/Counter.css";
 import ShowCounterHistory from "./CounterHistory.tsx";
 
@@ -31,10 +31,17 @@ function redoCount(history: number[]): number | null {
 }
 
 function Counter ({darkMode}: Props) {
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(() => {
+        const savedCount = localStorage.getItem("count");
+        return savedCount ? Number(savedCount) : 0;
+    });
     const [input, setInput] = useState(1);
     const [history, setHistory] = useState<number[]>([]);
     const [redoHistory, setRedoHistory] = useState<number[]>([]);
+
+    useEffect(() => {
+        localStorage.setItem("count",count.toString());
+    }, [count]);
 
     function handleAddCount() {
         const newCount = addCount(count, input);
