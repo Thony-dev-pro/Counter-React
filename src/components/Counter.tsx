@@ -12,10 +12,25 @@ function subtractCount(count: number, input: number): number {
     return newNumber < 0 ? 0 : newNumber;
 }
 
+function undoCount(history: number[]): number | null {
+    if (history.length === 0) {
+        return null;
+    }
+    return history[history.length - 2] ?? 0;
+}
+
+function redoCount(history: number[]): number | null {
+    if (history.length === 0) {
+        return null;
+    }
+    return history[history.length - 1] ?? 0;
+}
+
 function Counter () {
     const [count, setCount] = useState(0);
     const [input, setInput] = useState(1);
     const [history, setHistory] = useState<number[]>([]);
+    const [redoHistory, setRedoHistory] = useState<number[]>([]);
 
     function handleAddCount() {
         const newCount = addCount(count, input);
@@ -29,6 +44,24 @@ function Counter () {
         setHistory([...history, newCount]);
     }
 
+    function handleUndoCount() {
+        const previousCount = undoCount(history);
+        if (previousCount !== null) {
+            setRedoHistory([...redoHistory, count]);
+            setCount(previousCount);
+            setHistory(history.slice(0, -1));
+        }
+    }
+
+    function handleRedoCount() {
+        const nextCount = redoCount(redoHistory);
+        if (nextCount !== null) {
+            setHistory([...history, count]);
+            setCount(nextCount);
+            setRedoHistory(redoHistory.slice(0, -1));
+        }
+    }
+
     return (
         <div className="counter">
             <h1>Counter</h1>
@@ -38,6 +71,8 @@ function Counter () {
                 <button onClick={handleAddCount}>+</button>
                 <button onClick={handleSubtractCount}>-</button>
                 <button onClick={() => setCount(input)}>Reset</button>
+                <button onClick={handleUndoCount}>Undo</button>
+                <button onClick={handleRedoCount}>Redo</button>
             </div>
             <ShowCounterHistory history={history}/>
         </div>
